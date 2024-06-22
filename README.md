@@ -180,7 +180,7 @@ netconf ssh
 netconf-yang
 ```
 
-Once you paste this configuration into the controller, you will want to see if the stream is active, and if the subscriptions are valid. You can do that with the following commands:
+Once you paste this [configuration](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/blob/main/WLC-Config.txt) into the controller, you will want to see if the stream is active, and if the subscriptions are valid. You can do that with the following commands:
 
 ```
 show telemetry internal connection
