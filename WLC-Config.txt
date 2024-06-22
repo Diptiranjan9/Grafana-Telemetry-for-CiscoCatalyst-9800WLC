@@ -1,8 +1,8 @@
-!Need to enable netconf-yang. 
-!192.168.50.1-----> is the WLC ip and 192.168.200.102-----> is the Telemetry server ip
+! These configurations are for WLC.
+! Need to enable NETCONF-YANG.
+! 192.168.50.1 is the WLC IP and 192.168.200.102 is the telemetry server IP.
 
 netconf-yang
-
 ap profile default
 !This is the AP join profile. By default, the 'default profile' is configured. If you have any specific profile, please mention it here.
  no statistics traffic-distribution
