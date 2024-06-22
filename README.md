@@ -39,10 +39,12 @@ docker container ls or docker ps
 
 Find your server's IP address, then open your browser and access the InfluxDB web page forwarded on port 8086. Ensure that the firewall on your server allows traffic on ports 8086, 3000, and 57000 for the necessary services to run.
 
-[<img width="823" alt="Screenshot 2024-06-22 at 5 27 29 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/3afa84e8-bde3-42af-955f-878ef4a3a9cb">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+```
+ip addr show  # This command is to verify your server ip address
+```
 
 ```
-1. With InfluxDB running, visit `http://10.200.64.102:8086`
+1. With InfluxDB running, visit `http://[server ip]:8086`
 2. Click Get Started
 
 Set up your initial user
@@ -80,7 +82,7 @@ influx v1 dbrp create --db telegraf-influxsql --rp autogen --bucket-id <bucketid
 
 - Note: You will find the authentication token, bucket ID, and organization ID from the HTTP access of the database.
 
-[<img width="1512" alt="Screenshot 2024-06-22 at 6 16 13 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/aa67d9a8-87da-4e49-8f38-ca63e940790a">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+[<img width="1512" alt="Screenshot 2024-06-22 at 6 16 13 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/c606ddfa-59ba-46cd-9628-af5b42f20820">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 [<img width="1512" alt="Screenshot 2024-06-22 at 6 17 56 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/8ce36185-fab5-4127-ab3e-4745be97888b">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 [<img width="1512" alt="Screenshot 2024-06-22 at 6 18 48 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/d98b1b21-f052-42b1-9928-38fda77e4df5">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 
@@ -123,5 +125,8 @@ docker restart telegraf
 ```
 
 ### Setting up InfluxQL connection in Grafana
+
+You should verify that you can access the Grafana dashboard at http://[server ip]:3000
+
 
 
