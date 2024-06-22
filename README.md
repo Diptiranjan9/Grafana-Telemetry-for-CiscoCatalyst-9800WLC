@@ -132,8 +132,89 @@ You should verify that you can access the Grafana dashboard at http://[server ip
 
 - Login with User: admin, Pass:   # which you have mentioned in your docker compose file
 
-- We need to configure InfluxDB as the data source. Click the “Add data source” button on the dashboard and then select “InfluxDB” as the database:
+- We need to configure InfluxDB as the data source. Click the “Add data source” button on the dashboard and then select “InfluxDB” as the database.
+- Please follow below step:
 
+[<img width="1512" alt="Screenshot 2024-06-22 at 6 30 34 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/0eae0a8c-c074-42c1-b4eb-9d08a12642e0">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 
+[<img width="1245" alt="Screenshot 2024-06-22 at 6 39 44 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/238964af-e4b2-435b-8d01-afba66f9e8d9">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+[<img width="1243" alt="Screenshot 2024-06-22 at 6 39 56 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/d2bd7d16-1200-4a2d-95f5-d460d30fd994">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 
+- Note: Use authentication credentials for the InfluxDB login ID and password.
+
+## Configuring the Catalyst 9800 to stream Network Telemetry to Telegraf
+
+This portion is fairly straight forward, once you have the commands which I will included in this [repository](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/blob/main/WLC-Config.txt) to get the data you are looking for.
+
+Cisco’s model-driven telemetry is provided by “subscriptions.” You subscribe to a particular metric category that you want to send to the receiver. Because I’m not an expert with yang models, I struggled to find some of the statistics that I was interested in seeing. I’ll show you the method I used to find the metrics.
+
+### Finding the metrics
+
+The statistics or metrics that you will want to visualize, are organized in a yang model. The yang model is basically a standard way of organizing information into a hierarchy, and you will need to reference the entire hierarchy/path when you subscribe to a group of metrics.
+
+First, you will want to obtain the yang models for IOS-XE devices. The yang models can be found [here](https://github.com/YangModels/yang). It’s easiest to download the entire bundle, and then just navigate to the IOS-XE files. Note: These models are version specific, so you should make sure you are referencing the files for the version you are working with.
+
+If you’ve never worked with Yang models before, you’re probably looking at this pile of files and wondering what the hell you’re supposed to do with them. **I should make it clear that you don’t actually need these files to make this work.** The files simply provide a way for us to figure out where the interesting metrics exist within the yang model, so that we can configure the 9800 to send them. We won’t be uploading these files to the server. We will just be referencing them on our workstation.
+
+You can utilize the ***Cisco YANG*** Suite to explore all these metrics. Please click [here](https://www.youtube.com/watch?v=nnd4KqeeqIw) for details on the YANG Suite and instructions on how to explore all metrics using XPath.
+
+[<img width="1511" alt="Screenshot 2024-06-22 at 8 11 49 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/b522dc0e-28a9-47b6-ac10-05932b18bbd0">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+### Setting up the telemetry subscriptions in the Catalyst 9800
+
+Now that you have found the metrics you want to visualize, we need to configure the Catalyst 9800 to stream the data to Telegraf. This is done by creating “telemetry subscriptions” in the 9800. These subscriptions define the information you want, the format you want it in, where you want to send it, and how often you want to send it there. Here is an example of one telemetry subscription (we will have many, by the time we are done with this):
+
+```
+telemetry ietf subscription 21
+ encoding encode-kvgpb
+ filter xpath /wireless-client-oper:client-oper-data/traffic-stats
+ source-address [wlc ip]
+ stream yang-push
+ update-policy periodic 1000
+ receiver ip address [server ip] 57000 protocol grpc-tcp
+```
+You must also enable netconf on the controller for this to work:
+
+```
+netconf ssh
+netconf-yang
+```
+
+Once you paste this configuration into the controller, you will want to see if the stream is active, and if the subscriptions are valid. You can do that with the following commands:
+
+```
+show telemetry internal connection
+
+show telemetry ietf subscription [id]
+```
+
+Please find the xpaths which I have set up to find the metrics:
+
+```
+/wireless-client-oper:client-oper-data/traffic-stats
+/wireless-client-oper:client-oper-data/common-oper-data
+/wireless-client-oper:client-oper-data/dc-info
+/wireless-client-oper:client-oper-data/sisf-db-mac
+/wireless-client-oper:client-oper-data/dot11-oper-data
+/if:interfaces-state/interface
+/platform-sw-ios-xe-oper:cisco-platform-software/control-processes
+/process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/one-minute
+/cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/device-name
+/native/version
+/interfaces-ios-xe-oper:interfaces/interface/ipv4
+/cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/local-intf-name
+/platform-ios-xe-oper:components/component/state/serial-no
+/cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/port-id
+/cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/mgmt-address
+/memory-ios-xe-oper:memory-statistics/memory-statistic
+/platform-ios-xe-oper:components/component/state/description
+/wireless-access-point-oper:access-point-oper-data/capwap-data
+/wireless-access-point-oper:access-point-oper-data/ap-name-mac-map
+/wireless-access-point-oper:access-point-oper-data/radio-oper-data
+/wireless-rrm-oper:rrm-oper-data/rrm-measurement
+/wireless-mobility-oper:mobility-oper-data/ap-peer-list
+/wireless-mobility-oper:mobility-oper-data/wlan-client-limit
+/wireless-access-point-oper:access-point-oper-data/ssid-counters
+/ap-global-oper-data/ap-join-stats/ap-join-info
+```
 
