@@ -1,0 +1,185 @@
+!Need to enable netconf-yang. 
+!192.168.50.1-----> is the WLC ip and 192.168.200.102-----> is the Telemetry server ip
+
+netconf-yang
+
+ap profile default
+!This is the AP join profile. By default, the 'default profile' is configured. If you have any specific profile, please mention it here.
+ no statistics traffic-distribution
+ bssid-stats
+
+telemetry ietf subscription 21
+ encoding encode-kvgpb
+ filter xpath /wireless-client-oper:client-oper-data/traffic-stats
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 1000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 22
+ encoding encode-kvgpb
+ filter xpath /wireless-client-oper:client-oper-data/common-oper-data
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 1000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 24
+ encoding encode-kvgpb
+ filter xpath /wireless-client-oper:client-oper-data/dc-info
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 25
+ encoding encode-kvgpb
+ filter xpath /wireless-client-oper:client-oper-data/sisf-db-mac
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 27
+ encoding encode-kvgpb
+ filter xpath /wireless-client-oper:client-oper-data/dot11-oper-data
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 1000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 101
+ encoding encode-kvgpb
+ filter xpath /if:interfaces-state/interface
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 102
+ encoding encode-kvgpb
+ filter xpath /platform-sw-ios-xe-oper:cisco-platform-software/control-processes
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 6000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 103
+ encoding encode-kvgpb
+ filter xpath /process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/one-minute
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 6000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 105
+ encoding encode-kvgpb
+ filter xpath /cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/device-name
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 30000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 106
+ encoding encode-kvgpb
+ filter xpath /native/version
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 60000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 107
+ encoding encode-kvgpb
+ filter xpath /interfaces-ios-xe-oper:interfaces/interface/ipv4
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 30000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 108
+ encoding encode-kvgpb
+ filter xpath /cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/local-intf-name
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 30000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 110
+ encoding encode-kvgpb
+ filter xpath /platform-ios-xe-oper:components/component/state/serial-no
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 30000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 111
+ encoding encode-kvgpb
+ filter xpath /cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/port-id
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 30000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 112
+ encoding encode-kvgpb
+ filter xpath /cdp-ios-xe-oper:cdp-neighbor-details/cdp-neighbor-detail/mgmt-address
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 30000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 113
+ encoding encode-kvgpb
+ filter xpath /memory-ios-xe-oper:memory-statistics/memory-statistic
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 114
+ encoding encode-kvgpb
+ filter xpath /platform-ios-xe-oper:components/component/state/description
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 30000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 201
+ encoding encode-kvgpb
+ filter xpath /wireless-access-point-oper:access-point-oper-data/capwap-data
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 202
+ encoding encode-kvgpb
+ filter xpath /wireless-access-point-oper:access-point-oper-data/ap-name-mac-map
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 203
+ encoding encode-kvgpb
+ filter xpath /wireless-access-point-oper:access-point-oper-data/radio-oper-data
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 207
+ encoding encode-kvgpb
+ filter xpath /wireless-rrm-oper:rrm-oper-data/rrm-measurement
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 209
+ encoding encode-kvgpb
+ filter xpath /wireless-mobility-oper:mobility-oper-data/ap-peer-list
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 210
+ encoding encode-kvgpb
+ filter xpath /wireless-mobility-oper:mobility-oper-data/wlan-client-limit
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 211
+ encoding encode-kvgpb
+ filter xpath /wireless-access-point-oper:access-point-oper-data/ssid-counters
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 1000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp
+telemetry ietf subscription 212
+ encoding encode-kvgpb
+ filter xpath /ap-global-oper-data/ap-join-stats/ap-join-info
+ source-address 192.168.50.1
+ stream yang-push
+ update-policy periodic 3000
+ receiver ip address 192.168.200.102 57000 protocol grpc-tcp

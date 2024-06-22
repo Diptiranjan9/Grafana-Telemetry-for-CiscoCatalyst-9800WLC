@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  influxdb:
+    image: influxdb:2.0
+    container_name: influxdb
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    environment:
+      - INFLUXDB_DB=telegraf
+      - INFLUXDB_ADMIN_USER=admin    # admin is the super user.
+      - INFLUXDB_ADMIN_PASSWORD=password  #change the password
+    ports:
+      - "8086:8086"
+    networks:
+      - grafana_network
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin   #Super User
+      - GF_SECURITY_ADMIN_PASSWORD=password #chnge your password
+    ports:
+      - "3000:3000"
+    networks:
+      - grafana_network
+    restart: always
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    volumes:
+      - telegraf_data:/etc/telegraf
+    environment:
+      - HOST_PROC=/rootfs/proc
+      - HOST_SYS=/rootfs/sys
+      - HOST_ETC=/rootfs/etc
+      - INFLUXDB_URL=http://influxdb:8086
+    ports:
+      - "57000:57000"
+    networks:
+      - grafana_network
+    restart: always
+
+volumes:
+  influxdb_data: {}
+  grafana_data: {}
+  telegraf_data: {}
+
+networks:
+  grafana_network:
+    driver: bridge
