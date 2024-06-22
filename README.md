@@ -13,17 +13,25 @@ This project provides a comprehensive Grafana dashboard for monitoring the Cisco
 ### Docker Instllation:
 Gain root access to the Linux server, then clone the repository using the command below.
 
->`git clone https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git`
+```
+git clone https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git
+```
 
 The repository will be copied to your /root directory under the name Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git. Navigate to this folder and run the following command to download and start the Docker services in detached mode:
 
->`cd /root/Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git`
+```
+cd /root/Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git
+```
 
->`docker compose up -d `
+```
+docker compose up -d
+```
 
 Please verify if the Docker containers are up. If you notice that the Telegraf container has restarted, do not worry; it may be due to the InfluxDB authentication not configured. Follow the steps below to verify:
 
->`docker container ls` or `docker ps`
+```
+docker container ls or docker ps
+```
 
 [<img width="1453" alt="Screenshot 2024-06-22 at 4 58 30 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/875c6797-7f92-4388-9627-b4fd7ea0c8a3">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 
@@ -52,6 +60,23 @@ Copy the provided operator API token and store it for safe keeping.
 
 [<img width="1390" alt="Screenshot 2024-06-22 at 5 21 00 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/7907e95f-59b5-4e85-a2f1-673ce524df1d">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 
+### Setting up InfluxQL Connection to InfluxDB 2.x
 
+This is a bit more complicated process which is explained in this [forum topic](https://community.influxdata.com/t/how-to-connect-grafana-to-influxdbv2-by-influxql-method/17377/2), but essentially it requires below steps:
 
+- Gain CLI access to the InfluxDB container.
+```
+docker exec -it influxdb bash
+```
+- First, authenticate to gain access, then execute the DBRP command to map from the bucket to the database.
+```
+influx config create --config-name <config-name> --host-url http://localhost:8086 --org <your-org-name> --token <your-auth-token>
+
+influx auth list
+
+influx v1 dbrp create --db telegraf-influxsql --rp autogen --bucket-id <bucketid> --org-id <org-id>
+
+```
+
+- Note: You will find the authentication token, bucket ID, and organization ID from the HTTP access of the database.
 
