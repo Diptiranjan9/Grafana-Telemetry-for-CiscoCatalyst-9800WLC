@@ -128,5 +128,12 @@ docker restart telegraf
 
 You should verify that you can access the Grafana dashboard at http://[server ip]:3000
 
+[<img width="439" alt="Screenshot 2024-06-22 at 7 20 21 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/7015613f-8209-4ce1-975e-3274d295a7c9">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+- Login with User: admin, Pass:   # which you have mentioned in your docker compose file
+
+- We need to configure InfluxDB as the data source. Click the “Add data source” button on the dashboard and then select “InfluxDB” as the database:
+
+
 
 
