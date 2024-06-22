@@ -8,7 +8,7 @@ services:
       - influxdb_data:/var/lib/influxdb2
     environment:
       - INFLUXDB_DB=telegraf
-      - INFLUXDB_ADMIN_USER=admin    # admin is the super user.
+      - INFLUXDB_ADMIN_USER=admin         #super user.
       - INFLUXDB_ADMIN_PASSWORD=password  #change the password
     ports:
       - "8086:8086"
@@ -22,8 +22,8 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
-      - GF_SECURITY_ADMIN_USER=admin   #Super User
-      - GF_SECURITY_ADMIN_PASSWORD=password #chnge your password
+      - GF_SECURITY_ADMIN_USER=admin          #Super User
+      - GF_SECURITY_ADMIN_PASSWORD=password   #chnge your password
     ports:
       - "3000:3000"
     networks:
