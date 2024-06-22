@@ -21,9 +21,37 @@ The repository will be copied to your /root directory under the name Grafana-Tel
 
 >`docker compose up -d `
 
-Please verify if the Docker containers are up. If you notice that the Telegraf container has restarted, do not worry; it may be due to the InfluxDB authentication not configured. Follow the steps below to verify
+Please verify if the Docker containers are up. If you notice that the Telegraf container has restarted, do not worry; it may be due to the InfluxDB authentication not configured. Follow the steps below to verify:
 
 >`docker container ls` or `docker ps`
 
 [<img width="1453" alt="Screenshot 2024-06-22 at 4 58 30 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/875c6797-7f92-4388-9627-b4fd7ea0c8a3">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+### Set up InfluxDB: 
+
+Find your server's IP address, then open your browser and access the InfluxDB web page forwarded on port 8086. Ensure that the firewall on your server allows traffic on ports 8086, 3000, and 57000 for the necessary services to run.
+
+[<img width="823" alt="Screenshot 2024-06-22 at 5 27 29 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/3afa84e8-bde3-42af-955f-878ef4a3a9cb">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+```
+1. With InfluxDB running, visit `http://10.200.64.102:8086`
+2. Click Get Started
+
+Set up your initial user
+
+3. Enter a Username for your initial user.
+4. Enter a Password and Confirm Password for your user.
+5. Enter your initial Organization Name.
+6. Enter your initial Bucket Name.
+7. Click Continue.
+
+Copy the provided operator API token and store it for safe keeping.
+```
+
+[<img width="1400" alt="Screenshot 2024-06-22 at 5 29 49 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/14a6b9a9-eb05-4b88-aab5-97fb5a2b5f56">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+[<img width="1390" alt="Screenshot 2024-06-22 at 5 21 00 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/7907e95f-59b5-4e85-a2f1-673ce524df1d">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+
+
 
