@@ -1,7 +1,7 @@
 # Grafana Telemetry for Cisco Catalyst 9800WLC
 
 ## Abstract
-This project provides a comprehensive Grafana dashboard for monitoring the Cisco C9800 Wireless LAN Controller (WLC) running IOS-XE. The monitoring solution leverages Cisco's Model-Driven Telemetry system using the **gRPC Dial-Out** method to collect real-time data. **Telemetry, InfluxDB, and Grafana (TIG)** stack are utilized to process and visualize this data. Telegraf acts as the collector, InfluxDB as the time-series database, and Grafana as the front-end application for creating detailed, dynamic dashboards. This setup allows network administrators to gain deep insights into the performance and status of their Cisco C9800 WLC, ensuring optimal network management and troubleshooting capabilities.
+This project provides a comprehensive Grafana dashboard for monitoring the Cisco C9800 Wireless LAN Controller (WLC) running IOS-XE. The monitoring solution leverages Cisco's Model-Driven Telemetry system using the **gRPC Dial-Out** method to collect real-time data. **Telegraf, InfluxDB, and Grafana (TIG)** stack are utilized to process and visualize this data. Telegraf acts as the collector, InfluxDB as the time-series database, and Grafana as the front-end application for creating detailed, dynamic dashboards. This setup allows network administrators to gain deep insights into the performance and status of their Cisco C9800 WLC, ensuring optimal network management and troubleshooting capabilities.
 
 ## Requirements
 - Linux Server: Distributions like Ubuntu, CentOS, etc.
@@ -83,4 +83,45 @@ influx v1 dbrp create --db telegraf-influxsql --rp autogen --bucket-id <bucketid
 [<img width="1512" alt="Screenshot 2024-06-22 at 6 16 13 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/aa67d9a8-87da-4e49-8f38-ca63e940790a">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 [<img width="1512" alt="Screenshot 2024-06-22 at 6 17 56 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/8ce36185-fab5-4127-ab3e-4745be97888b">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 [<img width="1512" alt="Screenshot 2024-06-22 at 6 18 48 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/d98b1b21-f052-42b1-9928-38fda77e4df5">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+### Set up Telegraf:
+
+***Configure Telegraf to receive Cisco Network Telemetry***
+
+```
+vim /var/lib/docker/volumes/grafana_telegraf_data/_data/telegraf.conf
+```
+We must add the necessary information to enable the “cisco_telemetry_mdt” Telegraf plugin. We need to add a few lines of code to the Service Input Plugins section of the file. First, lets navigate to that section of the file:
+
+`/SERVICE INPUT`
+
+- We will add the following Telegraf plugin lines just inside this section:
+```
+[[inputs.cisco_telemetry_mdt]]
+  transport = "grpc"
+  service_address = ":57000"
+```
+[<img width="673" alt="Screenshot 2024-06-22 at 6 50 56 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/6ec172c5-8d7c-4622-8405-2a043e347ba5">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+- We also need to configure Telegraf to connect to the InfluxDB that we created earlier:
+
+  `/OUTPUT PLUGINS`
+  
+```
+[[outputs.influxdb_v2]]
+ urls = ["http://influxdb:8086"]
+ token = "xxxxxxxxxxxxxxxxxx"   #put admin token here
+ organization = "Org Name"
+ bucket = "telegraf"
+```
+[<img width="692" alt="Screenshot 2024-06-22 at 6 57 01 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/f366a762-85ab-45ea-aa34-3bf4ad4916a9">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+- After completing these configurations, restart the Telegraf container using the following steps:
+
+```
+docker restart telegraf
+```
+
+### Setting up InfluxQL connection in Grafana
+
 
