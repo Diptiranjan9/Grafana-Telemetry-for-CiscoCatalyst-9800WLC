@@ -6,10 +6,6 @@ services:
     container_name: influxdb
     volumes:
       - influxdb_data:/var/lib/influxdb2
-    environment:
-      - INFLUXDB_DB=telegraf
-      - INFLUXDB_ADMIN_USER=admin         #super user.
-      - INFLUXDB_ADMIN_PASSWORD=password  #change the password
     ports:
       - "8086:8086"
     networks:
