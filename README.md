@@ -11,4 +11,18 @@ This project provides a comprehensive Grafana dashboard for monitoring the Cisco
 ## Server Configuration Guide
 
 ### Docker Instllation:
+Gain root access to the Linux server, then clone the repository using the command below.
 
+>`git clone https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git`
+
+The repository will be copied to your /root directory under the name Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git. Navigate to this folder and run the following command to download and start the Docker services in detached mode:
+
+>`cd /root/Grafana-Telemetry-for-CiscoCatalyst-9800WLC.git`
+
+>`docker compose up -d `
+
+Please verify if the Docker containers are up. If you notice that the Telegraf container has restarted, do not worry; it may be due to the InfluxDB authentication not configured. Follow the steps below to verify
+
+>`docker container ls` or `docker ps`
+
+![Output of above command](<img width="1453" alt="Screenshot 2024-06-22 at 4 58 30 PM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/875c6797-7f92-4388-9627-b4fd7ea0c8a3">)
