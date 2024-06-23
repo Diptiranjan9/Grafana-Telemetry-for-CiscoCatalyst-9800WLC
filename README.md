@@ -289,3 +289,21 @@ To configure variables, click on the Gear button in the upper-right corner of th
       4. WLC interface
       5. WLC Chassis id
   
+## Useful References
+
+
+https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/model-driven-telemetry-wp.html
+
+https://developer.cisco.com/codeexchange/github/repo/jeremycohoe/cisco-ios-xe-mdt/
+
+https://github.com/CiscoDevNet/yangsuite
+
+https://www.youtube.com/watch?v=nnd4KqeeqIw
+
+https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/
+
+https://www.wifireference.com/2020/01/14/viewing-network-telemetry-from-the-catalyst-9800-with-grafana/
+
+https://github.com/jeremycohoe/cisco-ios-xe-mdt/tree/master
+
+https://github.com/nygma2004/km/wiki/InfluxDB-and-Grafana
