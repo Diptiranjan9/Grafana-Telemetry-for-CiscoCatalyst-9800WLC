@@ -276,4 +276,16 @@ To configure variables, click on the Gear button in the upper-right corner of th
 
 [![Screenshot 2024-06-07 at 10 57 30 AM](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/f8204047-986b-47ae-8de1-675d6d4f2d7e)](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
 
+## Key Takeaways
 
+- When creating the Docker Compose file, I configured a new bridge network and ensured all three Docker containers were placed within it, enabling automatic hostname resolution.
+- I incorporated persistence volumes in Docker to ensure continuity of data even after server reboots or container restarts.
+- If you opt not to map InfluxDB 2.x to InfluxQL, the query type will differ accordingly.
+- When importing my Grafana dashboard, please remember to properly choose the following points as mentioned below:
+  
+      1. WLAN ID
+      2. Radio SLOT ID
+      3. SSID
+      4. WLC interface
+      5. WLC Chassis id
+  
