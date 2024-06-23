@@ -218,3 +218,62 @@ Please find the xpaths which I have set up to find the metrics:
 /ap-global-oper-data/ap-join-stats/ap-join-info
 ```
 
+## Grafana Dashboard Design
+
+It’s important to understand that at this point, Telegraf is receiving the streams of data from the controller, even if you haven’t setup any graphs yet. The data is continuously being updated and stored in InfluxDB, regardless of whether or not you use it. This allows you to experiment with all different types of charts with real data. The longer you wait to configure the charts, the more historical data the system will be able to show you.
+
+Click on "New" to create a new dashboard. After that, you can add new visualizations or import an existing dashboard. I have added my dashboard design in this repository: [Grafana-Dashboard-Design.json](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/blob/main/Grafana-Dashboard-Design.json) You can import it to visualize the above xpath data.
+
+[<img width="1512" alt="Screenshot 2024-06-23 at 8 14 37 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/f8e492d7-32fe-46a8-a3c4-7408edd262f2">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+[<img width="811" alt="Screenshot 2024-06-23 at 8 16 05 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/2b84ae75-b16f-4e29-91e0-659edf99d975">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+If you want to design your own dashboard, click on Add Visualization. It will prompt you to select a data source; please choose the InfluxDB data source you created earlier.
+
+[<img width="1081" alt="Screenshot 2024-06-23 at 8 26 24 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/b594698c-3f7b-4f32-80b5-25c7e174247b">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+It will display a panel:
+
+[<img width="1512" alt="Screenshot 2024-06-23 at 8 27 29 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/248c2a18-cd09-4213-b87e-0eddad63c0be">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+Below is an example of the ***Client RSSI and SNR*** panel configuration. You can use this as a guide to set up other metrics as well:
+
+[<img width="1147" alt="Screenshot 2024-06-23 at 8 32 43 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/b3b8a217-afae-4f73-ba11-638e84017cbe">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+### Set up variables
+
+Grafana supports the use of variables in queries. Variables are the key to making an effective dashboard that you can use ongoing. Variables allow you to have a drop-down box at the top of the dashboard to select data to be used in the queries. Things like Client, AP, Band, Username can be set as variables, and then selected in drop-down menus and the charts will react to those selections.
+
+We’re actually going to create a variables here for **client mac address**. It’s important to understand that variables are only bound to the dashboard you create them in. If you create a separate dashboard for your client graphs, be sure to create the client-related variables on that dashboard.
+
+To configure variables, click on the Gear button in the upper-right corner of the screen.
+
+[<img width="1512" alt="Screenshot 2024-06-23 at 8 35 31 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/25daf82f-90bb-4018-b863-5c65fc1c5a94">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+- Then click on Variale > New variable
+
+[<img width="1507" alt="Screenshot 2024-06-23 at 8 38 04 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/bee36050-a4b7-4e53-b1c4-8a3e57820130">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+- You have to add some details as mentioned below:
+
+[<img width="1512" alt="Screenshot 2024-06-23 at 8 40 35 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/4f27b307-bea2-4e2c-8ee8-1ec9a7be0ca0">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+[<img width="1512" alt="Screenshot 2024-06-23 at 8 41 00 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/eeb85ce4-60f5-44df-88e6-77795d47e43f">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+- After adding the variables, you can see all variables appearing on the dashboard as shown below:
+
+[<img width="1512" alt="Screenshot 2024-06-23 at 8 44 04 AM" src="https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/eb9b31e6-5b1d-4690-b575-608e58c43cad">](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+## My Grafana Dashboard
+
+### WLC Health Stats
+
+[![Screenshot 2024-06-07 at 11 16 57 AM](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/e1b8bcb7-a18c-4c41-8895-e47cfaa3a5f2)](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+### Access Point and SSID Stats
+
+[![Screenshot 2024-06-07 at 10 57 10 AM](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/889c0915-9616-444c-9984-a398d06d3a2f)](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+### Client Stats
+
+[![Screenshot 2024-06-07 at 10 57 30 AM](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/assets/162305666/f8204047-986b-47ae-8de1-675d6d4f2d7e)](https://github.com/Diptiranjan9/Grafana-Telemetry-for-CiscoCatalyst-9800WLC/issues/1#issue-2367761790)
+
+
